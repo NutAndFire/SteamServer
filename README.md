@@ -8,6 +8,7 @@ This can be found at /home/{username}/Steam/rustserver.
 Tested on:
 
   Debian 8-10
+  
   Ubuntu 18.04
 
 The following actions will execute:
