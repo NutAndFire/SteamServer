@@ -94,6 +94,7 @@ installer() {
     fi
 }
 
+# Uninstaller is not functional, if you wish to roll back this setup use "userdel -r {username}", "nano /etc/sudoers 'remove the username'", "apt remove lib32gcc1 -y"
 uninstaller() {
     echo "Test"
     location=$(find / | grep "\<RustDedicated\>")
