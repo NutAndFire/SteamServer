@@ -19,3 +19,5 @@ The following actions will execute:
   5) Run SteamCMD and download Rust Server
   6) Create and configure a **startRust** script within the Rust directory
   7) Change directory owership
+
+Uninstaller is not functional, if you wish to roll back this setup use "userdel -r {username}", "nano /etc/sudoers 'remove the username'", "apt remove lib32gcc1 -y"
