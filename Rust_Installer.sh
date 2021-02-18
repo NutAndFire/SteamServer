@@ -30,6 +30,7 @@ add_userAccount() {
 }
 
 add_sudoers() {
+    // this is bad, can just add you group
     echo "$1 ALL=(ALL) ALL" >> /etc/sudoers
 }
 
