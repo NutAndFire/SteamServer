@@ -21,7 +21,7 @@ run_init() {
 steamCMD_Setup() {
     # Rust
     steamCMD_commands="+force_install_dir /home/$1/${steam_loc}/${rust_server_name} +login anonymous +app_update 258550 +quit"
-    # val
+    # Val
     steamCMD commands="+force install dir /home/$1/${stream_loc}/${val_server_name} +login anonymous +app_update 896660 validate +quit"
 }
 
@@ -35,8 +35,6 @@ add_userAccount() {
 }
 
 add_sudoers() {
-    # this is bad, can just add user to group
-    #echo "$1 ALL=(ALL) ALL" >> /etc/sudoers
     echo "adduser $1 sudo"
 }
 
@@ -75,15 +73,15 @@ change_owership() {
 installer() {
 
     echo
-    echo "Welcome to Rust_Installer, a quick way to get your server up and running."
+    echo "Welcome to SteamServerInstaller, a quick way to get your server up and running."
     echo "The following tasks will run to get you setup and configured!"
     echo
     echo "1) Create a new user and add to sudoers"
     echo "2) Create a Steam directory"
     echo "3) Run apt-get update and install dependencies required for SteamCMD on 64-Bit server"
     echo "4) Download and extract SteamCMD"
-    echo "5) Run SteamCMD and download Rust Server"
-    echo "6) Create and configure a **startRust** script within the Rust directory"
+    echo "5) Run SteamCMD and download Server"
+    echo "6) Create and configure a **start{Name}.sh** script within the server directory"
     echo "7) Change directory owership"
     echo
     echo "Starting..."
@@ -115,9 +113,9 @@ uninstaller() {
 
 help() {
     echo "Usage:"
-    echo "    Rust_Installer -h               Display this help message."
-    echo "    Rust_Installer -i               Install Rust Server."
-    echo "    Rust_Installer -u               Uninstall Rust Server."
+    echo "    SteamServerInstaller -h               Display this help message."
+    echo "    SteamServerInstaller -i               Install Server."
+    echo "    SteamServerInstaller -u               Uninstall Server."
 }
 
 main() {
