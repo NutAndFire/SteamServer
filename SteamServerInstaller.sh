@@ -2,7 +2,8 @@
 
 user='steam'
 steam_loc='Steam'
-server_name='rustserver'
+val_server_name='valserver'
+rust_server_name='rustserver'
 steamCMD_commands='+quit'
 
 run_init() {
@@ -13,11 +14,15 @@ run_init() {
     get_steamCMD $1
     run_steamCMD $1
     create_rustinit $1
+    create_valinit $1
     change_owership $1
 }
 
 steamCMD_Setup() {
-    steamCMD_commands="+login anonymous +force_install_dir /home/$1/${steam_loc}/${server_name} +app_update 258550 +quit"
+    # Rust
+    steamCMD_commands="+force_install_dir /home/$1/${steam_loc}/${rust_server_name} +login anonymous +app_update 258550 +quit"
+    # val
+    steamCMD commands="+force install dir /home/$1/${stream_loc}/${val_server_name} +login anonymous +app_update 896660 validate +quit"
 }
 
 add_userAccount() {
@@ -31,7 +36,8 @@ add_userAccount() {
 
 add_sudoers() {
     # this is bad, can just add user to group
-    echo "$1 ALL=(ALL) ALL" >> /etc/sudoers
+    #echo "$1 ALL=(ALL) ALL" >> /etc/sudoers
+    echo "adduser $1 sudo"
 }
 
 create_dir() {
@@ -39,7 +45,7 @@ create_dir() {
 }
 
 add_depend() {
-    apt-get update && apt install lib32gcc1 -y
+    apt-get update && apt install lib32gcc-s1 libsdl2-2.0-0 -y
 }
 
 get_steamCMD() {
@@ -52,9 +58,14 @@ run_steamCMD() {
     /home/$1/${steam_loc}/steamcmd.sh ${steamCMD_commands}
 }
 
+create_valinit() {
+    printf "#!/bin/bash\n\nexport templdpath=$LD_LIBRARY_PATH\n\nexport LD_LIBRARY_PATH=/home/$1/${steam_loc}/${val_server_name}/linux64:$LD_LIBRARY_PATH\n\nexport SteamAppID=896660\n\necho 'Starting server PRESS CTRL-C to exit'\n\n/home/$1/${steam_loc}/${val_server_name}/valheim_server.x86_64 -name '<servername>' \x5c\n -port 2456 \x5c\n -nographics \x5c\n -bathmode \x5c\n -world '<worldname>' \x5c\n -password '<serverpassword> \x5c\n -public 0'" >> /home/$1/${steam_loc}/${val_server_name}/startVal.sh
+    chmod u+x /home/$1/${steam_loc}/${val_server_name}/startVal.sh
+}
+
 create_rustinit() {
-    printf "#!/bin/bash\n\nexport LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/$1/${steam_loc}/${server_name}/RustDedicated_Data/Plugins/x86_64\n\n/home/$1/${steam_loc}/steamcmd.sh ${steamCMD_commands}\n\nwhile:do\n    nohup ./RustDedicated -batchmode -nographics \x5C\n    -server.port 28015 \x5C\n    -rcon.port 28016 \x5C\n    -rcon.password 'superpassword' \x5C\n    -server.maxplayers 60 \x5C\n    -server.hostname 'Server Name' \x5C\n    -server.identity 'node1' \x5C\n    -server.level 'Procedural Map' \x5C\n    -server.seed 12345 \x5C\n    -server.worldsize 3000 \x5C\n    -server.saveinterval 300 \x5C\n    -server.globalchat true \x5C\n    -server.description 'Description Here' \x26\ndone" >> /home/$1/${steam_loc}/${server_name}/startRust.sh
-    chmod u+x /home/$1/${steam_loc}/${server_name}/startRust.sh
+    printf "#!/bin/bash\n\nexport LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/$1/${steam_loc}/${rust_server_name}/RustDedicated_Data/Plugins/x86_64\n\n/home/$1/${steam_loc}/steamcmd.sh ${steamCMD_commands}\n\nwhile:do\n    nohup ./RustDedicated -batchmode -nographics \x5C\n    -server.port 28015 \x5C\n    -rcon.port 28016 \x5C\n    -rcon.password 'superpassword' \x5C\n    -server.maxplayers 60 \x5C\n    -server.hostname 'Server Name' \x5C\n    -server.identity 'node1' \x5C\n    -server.level 'Procedural Map' \x5C\n    -server.seed 12345 \x5C\n    -server.worldsize 3000 \x5C\n    -server.saveinterval 300 \x5C\n    -server.globalchat true \x5C\n    -server.description 'Description Here' \x26\ndone" >> /home/$1/${steam_loc}/${rust_server_name}/startRust.sh
+    chmod u+x /home/$1/${steam_loc}/${rust_server_name}/startRust.sh
 }
 
 change_owership() {
